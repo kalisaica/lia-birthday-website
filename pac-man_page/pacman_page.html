@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>You win!</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Permanent+Marker">
+    <style type="text/css">
+        body {
+            background-color: black;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #pacman {
+            height: 470px;
+            width: 382px;
+            border-radius: 5px;
+            margin: 20px auto;
+        }
+
+        #shim {
+            font-family: 'Permanent Marker', cursive;
+            position: absolute;
+            visibility: hidden;
+        }
+
+        h1 {
+            font-family: 'Permanent Marker', cursive;
+            text-align: center;
+            color: yellow;
+        }
+
+        #message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Permanent Marker', cursive;
+            font-size: 24px;
+            color: yellow;
+            text-align: center;
+            display: none;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="shim">shim for font face</div>
+    <h1>You 1 - 0 Pacman Monsters</h1>
+    <div id="pacman"></div>
+    <div id="message"></div>
+
+    <script type="text/javascript">
+        var eatenCount = 0;
+        var gameOver = false;
+        var messages = [
+            "Tuh kan!",
+            "Look at you!",
+            "you did it once again.",
+            "you always make me proud sayang,",
+            "you always are :)",
+            "I hope you're happy for what you have achieved along this 20 years of living",
+            "because if you asked me,",
+            "for the past 13 months,",
+            "I do",
+            "I love seeing you achieving things",
+            "I love seeing you excited for reasons and your eyes are sparkling through my screen",
+            "I love seeing you happy",
+            "I love seeing you grow",
+            "I love you so much",
+            "happy birthday mengy"
+        ];
+        var messageIndex = 0;
+        var audio = new Audio("/assets/audio/song.mp3");
+        audio.loop = true; // Ensures the song keeps playing
+
+
+        function showNextMessage() {
+            if (messageIndex === 0) {
+        // Play music when the first message appears
+        audio.play().catch(error => console.log("Autoplay blocked:", error));
+    }
+
+            if (messageIndex < messages.length) {
+                document.getElementById("message").innerText = messages[messageIndex];
+                document.getElementById("message").style.display = "block";
+                messageIndex++;
+                setTimeout(showNextMessage, 3500);
+            } else {
+                growFlowers();
+            }
+        }
+
+        function growFlowers() {
+            var canvas = document.createElement("canvas");
+            document.body.appendChild(canvas);
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            var ctx = canvas.getContext("2d");
+
+            var flowers = [];
+            for (var i = 0; i < 50; i++) {
+                flowers.push({
+                    x: Math.random() * canvas.width,
+                    y: canvas.height,
+                    speed: Math.random() * 2 + 1,
+                    color: "hsl(" + Math.random() * 360 + ", 100%, 50%)"
+                });
+            }
+
+            function animateFlowers() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                flowers.forEach(function (flower) {
+                    ctx.beginPath();
+                    ctx.arc(flower.x, flower.y, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = flower.color;
+                    ctx.fill();
+                    flower.y -= flower.speed;
+                    if (flower.y < 0) {
+                        flower.y = canvas.height;
+                    }
+                });
+                requestAnimationFrame(animateFlowers);
+            }
+
+            animateFlowers();
+        }
+
+        function checkWin() {
+            //if (eatenCount >= 10 && !gameOver) {
+            if (eatenCount >= 0 && !gameOver) {
+                gameOver = true;
+                document.getElementById("pacman").style.display = "none";
+                document.getElementById("message").style.display = "block";
+                showNextMessage();
+            }
+        }
+
+        // Simplified Pacman game logic
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowRight" && !gameOver) {
+                eatenCount++;
+                checkWin();
+            }
+        });
+
+        // Initial message
+        setTimeout(function () {
+            //document.getElementById("message").innerText = "Use the right arrow key to eat bits!";
+            document.getElementById("message").style.display = "block";
+            setTimeout(function () {
+                document.getElementById("message").style.display = "none";
+            }, 3000);
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -440,7 +440,7 @@ html {
 }
 @media only screen and (min-width: 751px) {
   .loading .bg_image {
-    background-image: url("../img/main-up_pc.jpg");
+    background-image: url("../img/main-up_pc.png");
   }
   .loading .load_catch {
     width: 918px;
@@ -468,16 +468,22 @@ html {
   animation: out_load 1.2s cubic-bezier(0.5, 1, 0.89, 1) 6.2s forwards;
 }
 .loading.open .load_catch {
-  -webkit-animation: open_scale 2s cubic-bezier(0.12, 0, 0.39, 0) forwards, out_load 0.8s cubic-bezier(0.32, 0, 0.67, 0) 2.2s forwards;
-  -moz-animation: open_scale 2s cubic-bezier(0.12, 0, 0.39, 0) forwards, out_load 0.8s cubic-bezier(0.32, 0, 0.67, 0) 2.2s forwards;
-  -o-animation: open_scale 2s cubic-bezier(0.12, 0, 0.39, 0) forwards, out_load 0.8s cubic-bezier(0.32, 0, 0.67, 0) 2.2s forwards;
-  animation: open_scale 2s cubic-bezier(0.12, 0, 0.39, 0) forwards, out_load 0.8s cubic-bezier(0.32, 0, 0.67, 0) 2.2s forwards;
+  -webkit-animation: open_scale 10s cubic-bezier(0.12, 0, 0.39, 0) forwards, out_load 0.8s cubic-bezier(0.32, 0, 0.67, 0) 2.2s forwards;
+  -moz-animation: open_scale 10s cubic-bezier(0.12, 0, 0.39, 0) forwards, out_load 0.8s cubic-bezier(0.32, 0, 0.67, 0) 2.2s forwards;
+  -o-animation: open_scale 10s cubic-bezier(0.12, 0, 0.39, 0) forwards, out_load 0.8s cubic-bezier(0.32, 0, 0.67, 0) 2.2s forwards;
+  animation: open_scale 10s cubic-bezier(0.12, 0, 0.39, 0) forwards, out_load 0.8s cubic-bezier(0.32, 0, 0.67, 0) 2.2s forwards;
 }
 .loading.open .load_catch .img_l {
-  -webkit-animation: open_logo_l 0.8s cubic-bezier(0.5, 1, 0.89, 1) forwards;
-  -moz-animation: open_logo_l 0.8s cubic-bezier(0.5, 1, 0.89, 1) forwards;
-  -o-animation: open_logo_l 0.8s cubic-bezier(0.5, 1, 0.89, 1) forwards;
-  animation: open_logo_l 0.8s cubic-bezier(0.5, 1, 0.89, 1) forwards;
+  -webkit-animation: open_logo_l 0.2s cubic-bezier(0.5, 1, 0.89, 1) forwards;
+  -moz-animation: open_logo_l 0.2s cubic-bezier(0.5, 1, 0.89, 1) forwards;
+  -o-animation: open_logo_l 0.2s cubic-bezier(0.5, 1, 0.89, 1) forwards;
+  animation: open_logo_l 0.2s cubic-bezier(0.5, 1, 0.89, 1) forwards;
+}
+.loading.open .load_catch .img_l0 {
+  -webkit-animation: open_logo_l 0.8s cubic-bezier(1, 0.5, 0.89, 1) forwards;
+  -moz-animation: open_logo_l 0.8s cubic-bezier(1, 0.5, 0.89, 1) forwards;
+  -o-animation: open_logo_l 0.8s cubic-bezier(1, 0.5, 0.89, 1) forwards;
+  animation: open_logo_l 0.8s cubic-bezier(1, 0.5, 0.89, 1) forwards;
 }
 .loading.open .bg_image {
   -webkit-animation: open_image 4.5s linear 1.2s forwards, out_load 0.8s cubic-bezier(0.32, 0, 0.67, 0) 5.2s forwards;
