@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Player 2?</title>
+    <style>
+        body {
+            background-color: #ffccdd;
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            color: #333;
+            overflow: hidden;
+        }
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .chat-box {
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            display: inline-block;
+            border-radius: 10px;
+            font-size: 24px;
+            width: 600px;
+            margin-bottom: 10px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .yes-btn, .no-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+        }
+        .yes-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        .no-btn {
+            background: #ff4444;
+            color: white;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: red;
+            opacity: 0.8;
+            position: fixed;
+            animation: fall 3s linear infinite;
+        }
+        @keyframes fall {
+            from {
+                transform: translateY(-10vh) translateX(0);
+            }
+            to {
+                transform: translateY(100vh) translateX(20px);
+            }
+        }
+        .chibi-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .chibi-container img {
+            width: 350px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-box" id="chat1">So this is pretty much it.</div>
+        <div class="chat-box" id="chat2">I'm so glad if you like it :)</div>
+        <div class="chat-box" id="chat3">Before we end this small game we play, I would like to take a chance to ask you...</div>
+        <div class="chat-box" id="chat4">Will you be my Player 2 this Valentine's Day and live this funny life and game together?</div>
+        <div class="chat-box" id="chat5">It might get harder in each level up, but up is where we are going, right? :)</div>
+        <div class="chat-box" id="chat6">So, will you be my Player 2 this Valentine's Day?</div>
+        
+        <div class="buttons" id="buttons" style="display: none;">
+            <button class="yes-btn" id="yes-btn">YES! ❤️</button>
+            <button class="no-btn" id="no-btn">No? 🤔</button>
+        </div>
+
+        <div class="chibi-container" id="chibi-container">
+            <img src="/closing_page/assets/chibi-updated.png" alt="Chibi Characters with Love and Flowers">
+        </div>
+    </div>
+
+    <audio id="love-music" src="/closing_page/assets/8bit-love.mp3"></audio>
+    <audio id="choosing-music" src="/closing_page/assets/love.mp3" loop autoplay></audio>
+
+    <script>
+        const chatBoxes = document.querySelectorAll('.chat-box');
+        let index = 0;
+
+        function showChat() {
+            if (index < chatBoxes.length) {
+                chatBoxes[index].style.opacity = 1;
+                index++;
+                setTimeout(showChat, 2000);
+            } else {
+                document.getElementById('buttons').style.display = 'block';
+            }
+        }
+
+        setTimeout(showChat, 1000);
+
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const loveMusic = document.getElementById('love-music');
+        const choosingMusic = document.getElementById('choosing-music');
+        const chibiContainer = document.getElementById('chibi-container');
+        let yesSize = 16;
+        const noResponses = ["Are you sure?", "Really?", "Think again?", "Last chance!", "Come on! 😭"];
+        let noClickCount = 0;
+
+        noBtn.addEventListener('click', () => {
+            if (noClickCount < noResponses.length) {
+                noBtn.textContent = noResponses[noClickCount];
+                noClickCount++;
+            } else {
+                noBtn.style.display = 'none';
+            }
+            yesSize += 10;
+            yesBtn.style.fontSize = `${yesSize}px`;
+        });
+
+        yesBtn.addEventListener('click', () => {
+            loveMusic.play();
+            choosingMusic.pause();
+            choosingMusic.currentTime = 0;
+            createConfetti();
+            document.querySelectorAll('.chat-box').forEach(box => box.style.display = 'none');
+            document.getElementById('buttons').style.display = 'none';
+            chibiContainer.style.display = 'block';
+        });
+
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                let confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.top = `${Math.random() * -10}vh`;
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html>
