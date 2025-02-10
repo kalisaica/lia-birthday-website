@@ -54,8 +54,6 @@
     <div id="message"></div>
 
     <script type="text/javascript">
-        var eatenCount = 0;
-        var gameOver = false;
         var messages = [
             "Tuh kan!",
             "Look at you!",
@@ -68,22 +66,21 @@
             "I do",
             "I love seeing you achieving things",
             "I love seeing you excited for reasons and your eyes are sparkling through my screen",
-            "I love seeing you happy",
-            "I love seeing you grow",
+            "I love seeing you trying",
+            "I love seeing you handle things",
+            "I love watching you grow",
             "I love you so much",
             "happy birthday mengy"
         ];
         var messageIndex = 0;
         var audio = new Audio("../assets/audio/song.mp3");
-        audio.loop = true; // Ensures the song keeps playing
-
-
+        audio.loop = true;
+    
         function showNextMessage() {
             if (messageIndex === 0) {
-        // Play music when the first message appears
-        audio.play().catch(error => console.log("Autoplay blocked:", error));
-    }
-
+                audio.play().catch(error => console.log("Autoplay blocked:", error));
+            }
+    
             if (messageIndex < messages.length) {
                 document.getElementById("message").innerText = messages[messageIndex];
                 document.getElementById("message").style.display = "block";
@@ -93,68 +90,61 @@
                 growFlowers();
             }
         }
-
+    
         function growFlowers() {
-            var canvas = document.createElement("canvas");
-            document.body.appendChild(canvas);
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            var ctx = canvas.getContext("2d");
+    var canvas = document.createElement("canvas");
+    document.body.appendChild(canvas);
+    
+    // Ensure canvas covers the entire viewport
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    canvas.style.position = "fixed"; // Fix canvas in place
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    canvas.style.pointerEvents = "none"; // Prevent interference with clicks
 
-            var flowers = [];
-            for (var i = 0; i < 50; i++) {
-                flowers.push({
-                    x: Math.random() * canvas.width,
-                    y: canvas.height,
-                    speed: Math.random() * 2 + 1,
-                    color: "hsl(" + Math.random() * 360 + ", 100%, 50%)"
-                });
-            }
+    var ctx = canvas.getContext("2d");
 
-            function animateFlowers() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                flowers.forEach(function (flower) {
-                    ctx.beginPath();
-                    ctx.arc(flower.x, flower.y, 5, 0, Math.PI * 2);
-                    ctx.fillStyle = flower.color;
-                    ctx.fill();
-                    flower.y -= flower.speed;
-                    if (flower.y < 0) {
-                        flower.y = canvas.height;
-                    }
-                });
-                requestAnimationFrame(animateFlowers);
-            }
+    var flowers = [];
+    for (var i = 0; i < 50; i++) {
+        flowers.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height, // Start randomly within the visible area
+            speed: Math.random() * 2 + 1,
+            color: "hsl(" + Math.random() * 360 + ", 100%, 50%)"
+        });
+    }
 
-            animateFlowers();
-        }
+    function animateFlowers() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        flowers.forEach(function (flower) {
+            ctx.beginPath();
+            ctx.arc(flower.x, flower.y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = flower.color;
+            ctx.fill();
+            flower.y -= flower.speed;
 
-        function checkWin() {
-            //if (eatenCount >= 10 && !gameOver) {
-            if (eatenCount >= 0 && !gameOver) {
-                gameOver = true;
-                document.getElementById("pacman").style.display = "none";
-                document.getElementById("message").style.display = "block";
-                showNextMessage();
-            }
-        }
-
-        // Simplified Pacman game logic
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "ArrowRight" && !gameOver) {
-                eatenCount++;
-                checkWin();
+            // Reset flowers smoothly just below the screen
+            if (flower.y < -10) {
+                flower.y = canvas.height + 10; 
+                flower.x = Math.random() * canvas.width; // Randomize x for a natural effect
             }
         });
+        requestAnimationFrame(animateFlowers);
+    }
 
-        // Initial message
-        setTimeout(function () {
-            //document.getElementById("message").innerText = "Use the right arrow key to eat bits!";
-            document.getElementById("message").style.display = "block";
-            setTimeout(function () {
-                document.getElementById("message").style.display = "none";
-            }, 3000);
-        }, 1000);
+    animateFlowers();
+
+    // Resize canvas when window resizes
+    window.addEventListener("resize", function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+}
+    
+        // Start showing messages automatically after 3 seconds
+        setTimeout(showNextMessage, 3000);
     </script>
+    
 </body>
 </html>
